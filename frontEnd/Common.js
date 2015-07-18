@@ -1,11 +1,10 @@
 var Common = {
     callParams: {
         successCallback: function (data) {
-            console.log('ssup');
-        },
-        completeCallback: function (xhr, status) {
-            console.log(xhr);
-            console.log(status);
+            var swipe = data == 'left' || data == 'up' ? '+=1' : ((data == 'right' || data == 'down') && '-=1' || '');
+            if(swipe.length) {
+                $('.jcarousel').jcarousel('scroll', swipe);
+            }
         }
     },
 
@@ -13,8 +12,7 @@ var Common = {
         /*Setting up recursive calling*/
         setInterval(function () {
             Common.callAPI(params);
-        }, 400);
-        
+        }, 400);        
         /*First Call*/
         Common.callAPI(params);
     },
@@ -22,7 +20,7 @@ var Common = {
     callAPI: function(params){
         $.ajax({
             // the URL for the request
-            url: Common.getUrlVars(),
+            url: 'http://' + Common.getUrlVars(),
          
             // whether this is a POST or GET request
             type: 'GET',
@@ -39,8 +37,7 @@ var Common = {
             },
          
             // code to run regardless of success or failure
-            complete: params.completeCallback,
-            timeout : 1000
+            timeout : 1500
         });
     },
 
